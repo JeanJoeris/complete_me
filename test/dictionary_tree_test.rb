@@ -59,7 +59,7 @@ class DictionaryTreeTest < Minitest::Test
     assert_equal word_2, node_3.substring
   end
 
-  def test_aggregate_results
+  def test_get_words
     word_1 = "pizza"
     word_2 = "pizzaria"
     word_3 = "pizzicato"
@@ -72,20 +72,69 @@ class DictionaryTreeTest < Minitest::Test
     test_tree.insert(word_4)
 
 
+    assert_equal words, test_tree.get_words.sort
+  end
+
+  def test_populate_tree_with_small_array
+    word_1 = "pizza"
+    word_2 = "pizzaria"
+    word_3 = "pizzicato"
+    word_4 = "pizzaaa"
+    words = [word_1, word_4, word_2, word_3].sort
+    words_joined = words.join("\n")
+    test_tree = DictionaryTree.new
+    test_tree.populate(words_joined)
+
     assert_equal words, test_tree.get_words
+  end
+
+  def test_populate_tree_with_dictionary
+    skip
+    dictionary = File.read("/usr/share/dict/words")
+    test_tree = DictionaryTree.new
+    test_tree.insert()
   end
 
   def test_count_words
     word_1 = "pizza"
     word_2 = "pizzaria"
     word_3 = "pizzicato"
-    words = [word_1, word_2, word_3]
+    word_4 = "foobar"
+    words = [word_1, word_2, word_3, word_4]
     test_tree = DictionaryTree.new
     test_tree.insert(word_1)
     test_tree.insert(word_2)
     test_tree.insert(word_3)
+    test_tree.insert(word_4)
 
-    assert_equal 3, test_tree.count_words
+    assert_equal 4, test_tree.count
+  end
+
+  def test_count_part_of_dictionary
+    skip
+    dictionary = File.read("/usr/share/dict/words")[0..1999].chomp
+    partial_dict_count = dictionary.split("\n").count
+    test_tree = DictionaryTree.new
+    test_tree.populate(dictionary)
+
+    assert_equal partial_dict_count, test_tree.count
+  end
+
+  def test_can_add_whole_dictionary
+
+    dictionary = File.read("/usr/share/dict/words")
+    test_tree = DictionaryTree.new
+    test_tree.populate(dictionary)
+    assert test_tree
+  end
+
+  def test_count_whole_dictionary
+
+    dictionary = File.read("/usr/share/dict/words")
+    test_tree = DictionaryTree.new
+    test_tree.populate(dictionary)
+
+    assert_equal 235886, test_tree.count
   end
 
   def test_find_word_node
@@ -127,7 +176,7 @@ class DictionaryTreeTest < Minitest::Test
     end
     expected_words = words[0..2]
 
-    assert_equal expected_words, test_tree.search("piz")
+    assert_equal expected_words, test_tree.search("piz").sort
   end
 
 
@@ -137,7 +186,7 @@ class DictionaryTreeTest < Minitest::Test
     words.each do |word|
       test_tree.insert(word)
     end
-    expected_words = words[0..2].sort
+    expected_words = words[0..2]
 
     assert_equal expected_words, test_tree.search("pizza")
   end
