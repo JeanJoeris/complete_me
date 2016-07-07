@@ -32,7 +32,7 @@ class DictionaryTreeTest < Minitest::Test
   def test_add_more_than_one_word
     test_tree = DictionaryTree.new
     test_tree.insert("piz")
-    test_tree.insert("fob")
+    test_tree.insert("foo")
     node_1a = test_tree.root.children.first
     node_1b = test_tree.root.children.last
     node_2a = node_1a.children.first
@@ -41,7 +41,7 @@ class DictionaryTreeTest < Minitest::Test
     node_3b = node_2b.children.first
 
     assert_equal "piz", node_3a.substring
-    assert_equal "fob", node_3b.substring
+    assert_equal "foo", node_3b.substring
   end
 
 
@@ -88,13 +88,6 @@ class DictionaryTreeTest < Minitest::Test
     assert_equal words, test_tree.get_words
   end
 
-  def test_populate_tree_with_dictionary
-    skip
-    dictionary = File.read("/usr/share/dict/words")
-    test_tree = DictionaryTree.new
-    test_tree.insert()
-  end
-
   def test_count_words
     word_1 = "pizza"
     word_2 = "pizzaria"
@@ -111,7 +104,6 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_count_part_of_dictionary
-    skip
     dictionary = File.read("/usr/share/dict/words")[0..1999].chomp
     partial_dict_count = dictionary.split("\n").count
     test_tree = DictionaryTree.new
@@ -121,7 +113,6 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_can_add_whole_dictionary
-    skip
     dictionary = File.read("/usr/share/dict/words")
     test_tree = DictionaryTree.new
     test_tree.populate(dictionary)
@@ -129,7 +120,6 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_count_whole_dictionary
-    skip
     dictionary = File.read("/usr/share/dict/words")
     test_tree = DictionaryTree.new
     test_tree.populate(dictionary)
@@ -226,5 +216,12 @@ class DictionaryTreeTest < Minitest::Test
 
   end
 
+  def test_selecting__1_word_once_changes_suggest_order
+
+  end
+
+  def test_suggest_order_with_multiple_selects
+
+  end
 
 end
