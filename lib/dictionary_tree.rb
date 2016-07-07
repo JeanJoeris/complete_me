@@ -4,14 +4,18 @@ require 'pry'
 class DictionaryTree
 
   attr_accessor :root
+  attr_reader :count
+
+
 
   def initialize(data = "")
     @root = DictionaryNode.new(data)
-    @word_count = 0
-    @word_container = []
+    @count = 0
+    @result_node = nil # feels unruby to do this, but it adds a class wide variable
   end
 
   def insert(word)
+    @count += 1
     current_node = @root
     word.chars.each do |character|
 
@@ -48,10 +52,23 @@ class DictionaryTree
     container
   end
 
-  def count
-    get_words.count
+  def get_word_nodes(node = @root, container = [])
+    #if container.count >100
+  #    binding.pry
+#    end
+    node.children.map do |child_node|
+      # container.push(node.substring) if node.is_word # feels inelegant, but handles case of search substring == word
+      container.push(child_node) if child_node.is_word
+      get_words(child_node, container)
+    end
+
+    container
   end
 
+
+  # kept around for proving traverse counting words
+  # does work. @count is more performant, but could be right while the tree is not
+  #
   # def count(node = @root)
   #
   #   node.children.map do |child_node|
@@ -61,18 +78,36 @@ class DictionaryTree
   #   @word_count
   # end
 
-  def find(node = @root, node_with_word = [], queried_string)
+  def recursive_find(node = @root, queried_string)
     node.children.each do |child_node|
 
-      node_with_word << child_node if child_node.substring == queried_string
-      find(child_node, node_with_word, queried_string) if child_node.children != []
+      if child_node.substring == queried_string
+        return @result_node = child_node
+      end
+      unless @result_node == queried_string
+        recursive_find(child_node, queried_string)
+      end
+
     end
-    node_with_word.first
   end
 
-  def search(substring)
+  def find(queried_string)
+    recursive_find(queried_string)
+    @result_node
+  end
+
+  def suggest(substring)
     substring_node = find(substring)
     words_found = get_words(substring_node)
+    if find(substring).is_word
+      words_found.push(substring)
+    end
+    words_found.sort
+  end
+
+  def select(substring, word)
+    substring_node = find(word)
+    substring_node.selected
   end
 
 end

@@ -53,4 +53,19 @@ class DictionaryNodeTest < Minitest::Test
     assert_equal node.children[2], node.find("c")
   end
 
+  def test_node_has_selection_count
+    a_node = DictionaryNode.new("a")
+
+    assert_equal 0, a_node.selection_count
+
+  end
+
+  def test_select_node_to_increment_select
+
+    a_node = DictionaryNode.new("a")
+    a_node.selected
+
+    assert_equal 1, a_node.selection_count
+  end
+
 end

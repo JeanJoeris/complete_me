@@ -121,7 +121,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_can_add_whole_dictionary
-
+    skip
     dictionary = File.read("/usr/share/dict/words")
     test_tree = DictionaryTree.new
     test_tree.populate(dictionary)
@@ -129,7 +129,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_count_whole_dictionary
-
+    skip
     dictionary = File.read("/usr/share/dict/words")
     test_tree = DictionaryTree.new
     test_tree.populate(dictionary)
@@ -137,7 +137,17 @@ class DictionaryTreeTest < Minitest::Test
     assert_equal 235886, test_tree.count
   end
 
+
+
+  def test_can_find_substring_with_one_word
+    test_tree = DictionaryTree.new
+    test_tree.insert("carpet")
+
+    assert_equal "car", test_tree.find("car").substring
+  end
+
   def test_find_word_node
+
     word_1 = "Thrall"
     word_2 = "Janna"
     word_3 = "Gromm"
@@ -152,14 +162,8 @@ class DictionaryTreeTest < Minitest::Test
     assert_equal nodes[2].substring, war_tree.find(word_3).substring
   end
 
-  def test_can_find_substring_with_one_word
-    test_tree = DictionaryTree.new
-    test_tree.insert("carpet")
-
-    assert_equal "car", test_tree.find("car").substring
-  end
-
   def test_can_find_substring_with_three_words
+
     test_tree = DictionaryTree.new
     test_tree.insert("pizza")
     test_tree.insert("pizzaria")
@@ -167,7 +171,7 @@ class DictionaryTreeTest < Minitest::Test
 
     assert_equal "pizzi", test_tree.find("pizzi").substring
   end
-
+  #
   def test_find_words_from_substring
     words = ["pizza", "pizzaria", "pizzicato", "foobar", "cello"]
     test_tree = DictionaryTree.new
@@ -176,19 +180,50 @@ class DictionaryTreeTest < Minitest::Test
     end
     expected_words = words[0..2]
 
-    assert_equal expected_words, test_tree.search("piz").sort
+    assert_equal expected_words, test_tree.suggest("piz").sort
   end
 
 
   def test_find_words_from_valid_word
+
     words = ["pizza", "pizzaria", "pizzaafoo", "pizzicato", "foobar", "cello"]
     test_tree = DictionaryTree.new
     words.each do |word|
       test_tree.insert(word)
     end
-    expected_words = words[0..2]
+    expected_words = words[0..2].sort
 
-    assert_equal expected_words, test_tree.search("pizza")
+    assert_equal expected_words, test_tree.suggest("pizza")
+  end
+
+  def test_access_node_selection_count_found_in_tree
+    test_tree = DictionaryTree.new
+    test_tree.insert("a")
+
+    assert_equal 0, test_tree.find("a").selection_count
+  end
+
+  def test_select_word_with_1_word_dictionary
+    test_tree = DictionaryTree.new
+    test_tree.insert("carpet")
+    test_tree.select("car", "carpet")
+    test_tree.select("car", "carpet")
+
+    assert_equal 2, test_tree.find("carpet").selection_count
+  end
+
+  def test_select_word_in_multi_word_dictionary
+    test_tree = DictionaryTree.new
+    test_tree.insert("pizza")
+    test_tree.insert("pizzicato")
+    test_tree.insert("pizzaria")
+    test_tree.select("piz", "pizzicato")
+    test_tree.select("piz", "pizzicato")
+    test_tree.select("piz", "pizza")
+
+    assert_equal 2, test_tree.find("pizzicato").selection_count
+    assert_equal 1, test_tree.find("pizza").selection_count
+
   end
 
 
