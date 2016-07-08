@@ -53,13 +53,14 @@ class DictionaryTree
     container
   end
 
-  def recursive_find(node = @root, recursive_depth = 1, queried_string)
+  def recursive_find(node = @root, recursive_depth = 0, queried_string)
     node.children.each do |child_node|
-
+      break if @result_node
       if child_node.substring == queried_string
         @result_node = child_node
       end
-      if child_node.substring[0..recursive_depth] == child_node.substring
+      # binding.pry
+      if child_node.substring == queried_string[0..recursive_depth]
         recursive_depth += 1
         recursive_find(child_node, recursive_depth, queried_string)
       end
@@ -68,6 +69,7 @@ class DictionaryTree
   end
 
   def find(queried_string)
+    @result_node = nil
     recursive_find(queried_string)
     @result_node
   end
@@ -118,6 +120,7 @@ class DictionaryTree
   def delete(word)
     @count -= 1 if find(word)
     word_substrings = get_substrings(word)
+    # binding.pry
     find(word).is_word = false
     prune_tree(word_substrings)
   end

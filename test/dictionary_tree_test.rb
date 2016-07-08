@@ -9,21 +9,25 @@ require "pry"
 class DictionaryTreeTest < Minitest::Test
 
   def test_is_dictionary_tree
+    # skip
     test_tree = DictionaryTree.new("foo")
     assert test_tree
   end
 
   def test_has_root
+    # skip
     test_tree = DictionaryTree.new("root")
     assert_equal "root", test_tree.root.substring
   end
 
   def test_root_has_no_children
+    # skip
     test_tree = DictionaryTree.new("root")
     assert_equal [] , test_tree.root.children
   end
 
   def test_add_word
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("piz")
     second_node = test_tree.root.children.first
@@ -32,6 +36,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_add_more_than_one_word
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("piz")
     test_tree.insert("foo")
@@ -48,6 +53,7 @@ class DictionaryTreeTest < Minitest::Test
 
 
   def test_add_two_words_starting_with_same_letters
+    # skip
     word_1 = "fo"
     word_2 = "foo"
     test_tree = DictionaryTree.new
@@ -62,6 +68,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_get_words
+    # skip
     word_1 = "pizza"
     word_2 = "pizzaria"
     word_3 = "pizzicato"
@@ -78,6 +85,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_populate_tree_with_small_array
+    # skip
     word_1 = "pizza"
     word_2 = "pizzaria"
     word_3 = "pizzicato"
@@ -91,6 +99,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_count_2_nodes
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("ab")
 
@@ -98,6 +107,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_count_5_nodes
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("abc")
     test_tree.insert("ace")
@@ -106,6 +116,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_count_words
+    # skip
     word_1 = "pizza"
     word_2 = "pizzaria"
     word_3 = "pizzicato"
@@ -121,7 +132,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_count_part_of_dictionary
-    skip
+    # skip
     dictionary = File.read("/usr/share/dict/words")[0..1999].chomp
     partial_dict_count = dictionary.split("\n").count
     test_tree = DictionaryTree.new
@@ -131,7 +142,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_can_add_whole_dictionary
-    skip
+    # skip
     dictionary = File.read("/usr/share/dict/words")
     test_tree = DictionaryTree.new
     test_tree.populate(dictionary)
@@ -139,7 +150,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_count_whole_dictionary
-    skip
+    # skip
     dictionary = File.read("/usr/share/dict/words")
     test_tree = DictionaryTree.new
     test_tree.populate(dictionary)
@@ -148,6 +159,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_finds_nil_if_not_there
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("a")
 
@@ -155,6 +167,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_can_find_substring_with_one_word
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("carpet")
 
@@ -162,7 +175,6 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_find_word_node
-
     word_1 = "Thrall"
     word_2 = "Janna"
     word_3 = "Gromm"
@@ -187,7 +199,17 @@ class DictionaryTreeTest < Minitest::Test
     assert_equal "pizzi", test_tree.find("pizzi").substring
   end
 
+  def test_find_word_with_invalid_word
+    words = ["pizza", "pizzaria", "pizzaafoo", "pizzicato", "foobar", "cello"]
+    test_tree = DictionaryTree.new
+    words.each do |word|
+      test_tree.insert(word)
+    end
+    assert_equal nil, test_tree.find("half-life 3")
+  end
+
   def test_find_words_from_substring
+    # skip
     words = ["pizza", "pizzaria", "pizzicato", "foobar", "cello"]
     test_tree = DictionaryTree.new
     words.each do |word|
@@ -200,6 +222,7 @@ class DictionaryTreeTest < Minitest::Test
 
 
   def test_find_words_from_valid_word
+    # skip
 
     words = ["pizza", "pizzaria", "pizzaafoo", "pizzicato", "foobar", "cello"]
     test_tree = DictionaryTree.new
@@ -211,17 +234,10 @@ class DictionaryTreeTest < Minitest::Test
     assert_equal expected_words, test_tree.suggest("pizza")
   end
 
-  def test_find_word_with_invalid_word
 
-    words = ["pizza", "pizzaria", "pizzaafoo", "pizzicato", "foobar", "cello"]
-    test_tree = DictionaryTree.new
-    words.each do |word|
-      test_tree.insert(word)
-    end
-    refute test_tree.find("half-life 3")
-  end
 
   def test_access_node_selection_count_found_in_tree
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("a")
 
@@ -229,6 +245,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_select_word_with_1_word_dictionary
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("carpet")
     n = 2
@@ -240,6 +257,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_select_word_in_multi_word_dictionary
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("pizza")
     test_tree.insert("pizzicato")
@@ -256,6 +274,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_get_word_node_for_one_word
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("foo")
 
@@ -263,6 +282,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_selecting_1_word_once_changes_suggest_order
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("pizza")
     test_tree.insert("pizzicato")
@@ -273,6 +293,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_suggest_order_with_multiple_selects
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("pizza")
     test_tree.insert("pizzicato")
@@ -285,6 +306,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_diverse_word_selection_and_suggestion
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("badger")
     test_tree.insert("badder")
@@ -312,6 +334,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_select_partial_dictionary
+    # skip
     test_tree = DictionaryTree.new
     dictionary = File.read('./test/medium.txt')
     test_tree.populate(dictionary)
@@ -331,6 +354,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_select_entire_dictioary
+    # skip
     test_tree = DictionaryTree.new
     dictionary = File.read("/usr/share/dict/words")
     test_tree.populate(dictionary)
@@ -353,7 +377,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_delete_word_decreases_word_count
-
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("pizza")
     test_tree.delete("pizza")
@@ -362,6 +386,7 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_delete_decreases_node_count
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("pizza")
     test_tree.insert("pizz")
@@ -371,27 +396,27 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_will_not_suggest_deleted_word
+    # skip
     test_tree = DictionaryTree.new
     test_tree.insert("pizza")
     test_tree.insert("pizz")
     test_tree.delete("pizza")
-    p test_tree.find("pizza")
 
     assert_equal ["pizz"], test_tree.suggest("pizz")
 
   end
 
   def test_cannot_find_deleted_word
-
     test_tree = DictionaryTree.new
     test_tree.insert("pizza")
     test_tree.delete("pizza")
 
-    # p test_tree.find("pizza")
+    refute test_tree.find("pizza")
     assert [], test_tree.find("pizza")
   end
 
   def test_delete_in_small_tree
+
     test_tree = DictionaryTree.new
     test_tree.insert("badger")
     test_tree.insert("badder")
@@ -404,13 +429,12 @@ class DictionaryTreeTest < Minitest::Test
     test_tree.insert("fox")
 
     test_tree.delete("mushroom")
-    # p test_tree.find("mushroom")
+    p test_tree.find("mushroom")
     assert [], test_tree.find("mushroom")
     assert "mushrom", test_tree.find("mushrom")
   end
 
   def test_can_find_node_one_above_deleted_word
-    skip
     test_tree = DictionaryTree.new
     test_tree.insert("pizza")
     test_tree.insert("pizz")
@@ -420,16 +444,16 @@ class DictionaryTreeTest < Minitest::Test
   end
 
   def test_deletion_with_full_tree
-    skip
     expected_words = ["pizzle", "pizzicato", "pizzeria", "pize"]
     test_tree = DictionaryTree.new
     dictionary = File.read("/usr/share/dict/words")
     test_tree.populate(dictionary)
     test_tree.delete("pizza")
-    puts "looking for pizza!"
+    # puts "looking for pizza!"
     # if test_tree.find("pizza") != []
     #   puts test_tree.find("pizza").inspect
     # end
+    refute test_tree.find("pizza")
     assert [], test_tree.find("pizza")
     assert expected_words, test_tree.suggest("piz")
   end
