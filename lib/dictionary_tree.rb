@@ -128,6 +128,7 @@ class DictionaryTree
   def count_nodes(node = @root)
     node.children.map do |child_node|
       @node_count +=1
+      # binding.pry if child_node.is_word
       count_nodes(child_node)
     end
     @node_count
